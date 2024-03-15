@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
   int numread;
 
   if (argc > 1) {
-    if (argv[0] == "-c") {
+    if (argv[1] == "-c") {
       fd = open("/dev/log_main", O_WRONLY);
       if (fd < 0) {
         perror("Error opening /dev/log_main\n");
