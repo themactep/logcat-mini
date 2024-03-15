@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 
   fd = open("/dev/log_main", O_RDONLY);
   if (fd < 0) {
-    printf("Error opening /dev/log_main\n");
+    perror("Error opening /dev/log_main\n");
     return -1;
   }
   int pos;
