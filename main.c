@@ -78,34 +78,34 @@ int main(int argc, char *argv[]) {
     char *msg = entry.msg + strlen(entry.msg) + 1;
     switch (*tag) {
     case ANDROID_LOG_UNKNOWN:
-      *tag = 'U';
+      tag = 'U';
       break;
     case ANDROID_LOG_DEFAULT:
-      *tag = '*';
+      tag = '*';
       break;
     case ANDROID_LOG_VERBOSE:
-      *tag = 'V';
+      tag = 'V';
       break;
     case ANDROID_LOG_DEBUG:
-      *tag = 'D';
+      tag = 'D';
       break;
     case ANDROID_LOG_INFO:
-      *tag = 'I';
+      tag = 'I';
       break;
     case ANDROID_LOG_WARN:
-      *tag = 'W';
+      tag = 'W';
       break;
     case ANDROID_LOG_ERROR:
-      *tag = 'E';
+      tag = 'E';
       break;
     case ANDROID_LOG_FATAL:
-      *tag = 'F';
+      tag = 'F';
       break;
     case ANDROID_LOG_SILENT:
-      *tag = 'S';
+      tag = 'S';
       break;
     default:
-      *tag = '?';
+      tag = '?';
       break;
     }
 
