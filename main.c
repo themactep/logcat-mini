@@ -10,13 +10,13 @@
 #define LOGGER_ENTRY_MAX_LEN (4 * 1024)
 
 struct logger_entry {
-  uint16_t len;    /* length of the payload */
-  uint16_t __pad;  /* no matter what, we get 2 bytes of padding */
-  int32_t pid;     /* generating process's pid */
-  int32_t tid;     /* generating process's tid */
-  int32_t sec;     /* seconds since Epoch */
-  int32_t nsec;    /* nanoseconds */
-  char msg[65535]; /* the entry's payload */
+  uint16_t len;   /* length of the payload */
+  uint16_t __pad; /* no matter what, we get 2 bytes of padding */
+  int32_t pid;    /* generating process's pid */
+  int32_t tid;    /* generating process's tid */
+  int32_t sec;    /* seconds since Epoch */
+  int32_t nsec;   /* nanoseconds */
+  char msg[4096]; /* the entry's payload */
 } entry;
 
 int main(int argc, char *argv[]) {
