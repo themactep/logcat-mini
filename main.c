@@ -76,39 +76,40 @@ int main(int argc, char *argv[]) {
     char *tag = entry.msg;
     char *prog = entry.msg + 1;
     char *msg = entry.msg + strlen(entry.msg) + 1;
+    char tagbyte;
     switch (*tag) {
     case ANDROID_LOG_UNKNOWN:
-      tag = 'U';
+      tagbyte = 'U';
       break;
     case ANDROID_LOG_DEFAULT:
-      tag = '*';
+      tagbyte = '*';
       break;
     case ANDROID_LOG_VERBOSE:
-      tag = 'V';
+      tagbyte = 'V';
       break;
     case ANDROID_LOG_DEBUG:
-      tag = 'D';
+      tagbyte = 'D';
       break;
     case ANDROID_LOG_INFO:
-      tag = 'I';
+      tagbyte = 'I';
       break;
     case ANDROID_LOG_WARN:
-      tag = 'W';
+      tagbyte = 'W';
       break;
     case ANDROID_LOG_ERROR:
-      tag = 'E';
+      tagbyte = 'E';
       break;
     case ANDROID_LOG_FATAL:
-      tag = 'F';
+      tagbyte = 'F';
       break;
     case ANDROID_LOG_SILENT:
-      tag = 'S';
+      tagbyte = 'S';
       break;
     default:
-      tag = '?';
+      tagbyte = '?';
       break;
     }
 
-    printf("%c/%s(%5d): %s", tag, prog, entry.pid, msg);
+    printf("%c/%s(%5d): %s", tagbyte, prog, entry.pid, msg);
   }
 }
