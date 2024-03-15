@@ -50,8 +50,7 @@ int main(int argc, char *argv[]) {
       ioctl(fd, LOGGER_FLUSH_LOG);
       close(fd);
       return 0;
-    }
-    if (argv[0] == "-h") {
+    } else {
       printf("Usage: %s [-c] [-h]\n", argv[0]);
       printf("Options:\n");
       printf("  -c  Clear the log\n");
