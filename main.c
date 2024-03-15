@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
   int numread;
 
   if (argc > 1) {
-    if (argv[1] == "-c") {
+    if (strcmp(argv[1], "-c") == 0) {
       fd = open("/dev/log_main", O_WRONLY);
       if (fd < 0) {
         perror("Error opening /dev/log_main\n");
@@ -78,34 +78,34 @@ int main(int argc, char *argv[]) {
     char *msg = entry.msg + strlen(entry.msg) + 1;
     switch (*tag) {
     case ANDROID_LOG_UNKNOWN:
-      tag = 'U';
+      *tag = 'U';
       break;
     case ANDROID_LOG_DEFAULT:
-      tag = '*';
+      *tag = '*';
       break;
     case ANDROID_LOG_VERBOSE:
-      tag = 'V';
+      *tag = 'V';
       break;
     case ANDROID_LOG_DEBUG:
-      tag = 'D';
+      *tag = 'D';
       break;
     case ANDROID_LOG_INFO:
-      tag = 'I';
+      *tag = 'I';
       break;
     case ANDROID_LOG_WARN:
-      tag = 'W';
+      *tag = 'W';
       break;
     case ANDROID_LOG_ERROR:
-      tag = 'E';
+      *tag = 'E';
       break;
     case ANDROID_LOG_FATAL:
-      tag = 'F';
+      *tag = 'F';
       break;
     case ANDROID_LOG_SILENT:
-      tag = 'S';
+      *tag = 'S';
       break;
     default:
-      tag = '?';
+      *tag = '?';
       break;
     }
 
