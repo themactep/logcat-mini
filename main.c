@@ -35,31 +35,45 @@ typedef enum android_LogPriority {
 
 int main(int argc, char *argv[]) {
 
+  int follow = 0;
   int fd;
   int msize;
   int readsize;
   int numread;
 
   if (argc > 1) {
-    if (strcmp(argv[1], "-c") == 0) {
-      fd = open("/dev/log_main", O_WRONLY);
-      if (fd < 0) {
-        perror("Error opening /dev/log_main\n");
-        return -1;
+    for (int x = 1; x < argc; x++) {
+      if (strcmp(argv[x], "-c") == 0) {
+        fd = open("/dev/log_main", O_WRONLY);
+        if (fd < 0) {
+          perror("Error opening /dev/log_main\n");
+          return -1;
+        }
+        ioctl(fd, LOGGER_FLUSH_LOG);
+        close(fd);
+        return 0;
+      } else if (strncmp(argv[x], "-f", 2) == 0) {
+        follow = 1;
+      } else {
+        printf("Usage: %s [-c] [-h]\n", argv[0]);
+        printf("Options:\n");
+        printf("  -f  Follow the log\n");
+        printf("  -c  Clear the log\n");
+        printf("  -h  Show this help\n");
+        return 0;
       }
-      ioctl(fd, LOGGER_FLUSH_LOG);
-      close(fd);
-      return 0;
-    } else {
-      printf("Usage: %s [-c] [-h]\n", argv[0]);
-      printf("Options:\n");
-      printf("  -c  Clear the log\n");
-      printf("  -h  Show this help\n");
-      return 0;
     }
   }
 
-  fd = open("/dev/log_main", O_RDONLY);
+  if (follow) {
+    fd = open("/dev/log_main", O_RDONLY);
+    if (fd < 0) {
+      perror("Error opening /dev/log_main\n");
+      return -1;
+    }
+  } else {
+    fd = open("/dev/log_main", O_RDONLY | O_NONBLOCK);
+  }
   if (fd < 0) {
     perror("Error opening /dev/log_main\n");
     return -1;
@@ -67,10 +81,13 @@ int main(int argc, char *argv[]) {
   int pos;
   while (1) {
     numread = read(fd, &entry, LOGGER_ENTRY_MAX_LEN);
-    if (numread < 1) {
+    if (numread < 0) {
       perror("Error: ");
       strerror(errno);
       return -1;
+    }
+    if (!follow && numread == 0) {
+      return 0;
     }
     memset((char *)&entry + numread, 0, 1);
     char *tag = entry.msg;
