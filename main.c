@@ -85,6 +85,8 @@ int main(int argc, char *argv[]) {
       if ((errno == EAGAIN || errno == EWOULDBLOCK) && !follow) {
         return 0;
       } else {
+        printf("numread: %d\n", numread);
+        printf("Errno %d", errno);
         perror("Error: \n");
         strerror(errno);
         return -1;
