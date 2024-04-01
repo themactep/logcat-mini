@@ -92,45 +92,45 @@ int main(int argc, char *argv[]) {
       if (!follow && numread == 0) {
         return 0;
       }
-
-      memset((char *)&entry + numread, 0, 1);
-      char *tag = entry.msg;
-      char *prog = entry.msg + 1;
-      char *msg = entry.msg + strlen(entry.msg) + 1;
-      char tagbyte;
-      switch (*tag) {
-      case ANDROID_LOG_UNKNOWN:
-        tagbyte = 'U';
-        break;
-      case ANDROID_LOG_DEFAULT:
-        tagbyte = '*';
-        break;
-      case ANDROID_LOG_VERBOSE:
-        tagbyte = 'V';
-        break;
-      case ANDROID_LOG_DEBUG:
-        tagbyte = 'D';
-        break;
-      case ANDROID_LOG_INFO:
-        tagbyte = 'I';
-        break;
-      case ANDROID_LOG_WARN:
-        tagbyte = 'W';
-        break;
-      case ANDROID_LOG_ERROR:
-        tagbyte = 'E';
-        break;
-      case ANDROID_LOG_FATAL:
-        tagbyte = 'F';
-        break;
-      case ANDROID_LOG_SILENT:
-        tagbyte = 'S';
-        break;
-      default:
-        tagbyte = '?';
-        break;
-      }
-
-      printf("%c/%s(%5d): %s", tagbyte, prog, entry.pid, msg);
     }
+    memset((char *)&entry + numread, 0, 1);
+    char *tag = entry.msg;
+    char *prog = entry.msg + 1;
+    char *msg = entry.msg + strlen(entry.msg) + 1;
+    char tagbyte;
+    switch (*tag) {
+    case ANDROID_LOG_UNKNOWN:
+      tagbyte = 'U';
+      break;
+    case ANDROID_LOG_DEFAULT:
+      tagbyte = '*';
+      break;
+    case ANDROID_LOG_VERBOSE:
+      tagbyte = 'V';
+      break;
+    case ANDROID_LOG_DEBUG:
+      tagbyte = 'D';
+      break;
+    case ANDROID_LOG_INFO:
+      tagbyte = 'I';
+      break;
+    case ANDROID_LOG_WARN:
+      tagbyte = 'W';
+      break;
+    case ANDROID_LOG_ERROR:
+      tagbyte = 'E';
+      break;
+    case ANDROID_LOG_FATAL:
+      tagbyte = 'F';
+      break;
+    case ANDROID_LOG_SILENT:
+      tagbyte = 'S';
+      break;
+    default:
+      tagbyte = '?';
+      break;
+    }
+
+    printf("%c/%s(%5d): %s", tagbyte, prog, entry.pid, msg);
   }
+}
