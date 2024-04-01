@@ -81,6 +81,9 @@ int main(int argc, char *argv[]) {
   int pos;
   while (1) {
     numread = read(fd, &entry, LOGGER_ENTRY_MAX_LEN);
+    if (numread == EAGAIN && !follow) {
+      return 0;
+    }
     if (numread < 0) {
       perror("Error: ");
       strerror(errno);
