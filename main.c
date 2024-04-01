@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
       return 0;
     }
     if (numread < 0) {
-      printf("Error: %d\n", errno);
+      printf("Error: %d\n", numread);
       strerror(errno);
       return -1;
     }
