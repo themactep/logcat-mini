@@ -81,55 +81,56 @@ int main(int argc, char *argv[]) {
   int pos;
   while (1) {
     numread = read(fd, &entry, LOGGER_ENTRY_MAX_LEN);
-    if ((numread == EAGAIN || numread == EWOULDBLOCK) && !follow) {
-      return 0;
-    }
-    if (numread < 0) {
-      printf("Error: %d\n", numread);
-      strerror(errno);
-      return -1;
-    }
-    if (!follow && numread == 0) {
-      return 0;
-    }
-    memset((char *)&entry + numread, 0, 1);
-    char *tag = entry.msg;
-    char *prog = entry.msg + 1;
-    char *msg = entry.msg + strlen(entry.msg) + 1;
-    char tagbyte;
-    switch (*tag) {
-    case ANDROID_LOG_UNKNOWN:
-      tagbyte = 'U';
-      break;
-    case ANDROID_LOG_DEFAULT:
-      tagbyte = '*';
-      break;
-    case ANDROID_LOG_VERBOSE:
-      tagbyte = 'V';
-      break;
-    case ANDROID_LOG_DEBUG:
-      tagbyte = 'D';
-      break;
-    case ANDROID_LOG_INFO:
-      tagbyte = 'I';
-      break;
-    case ANDROID_LOG_WARN:
-      tagbyte = 'W';
-      break;
-    case ANDROID_LOG_ERROR:
-      tagbyte = 'E';
-      break;
-    case ANDROID_LOG_FATAL:
-      tagbyte = 'F';
-      break;
-    case ANDROID_LOG_SILENT:
-      tagbyte = 'S';
-      break;
-    default:
-      tagbyte = '?';
-      break;
-    }
+    if (numread < 1) {
+      if ((errno == EAGAIN || errno == EWOULDBLOCK) && !follow) {
+        return 0;
+      } else {
+        perror("Error: \n");
+        strerror(errno);
+        return -1;
+      }
+      if (!follow && numread == 0) {
+        return 0;
+      }
 
-    printf("%c/%s(%5d): %s", tagbyte, prog, entry.pid, msg);
+      memset((char *)&entry + numread, 0, 1);
+      char *tag = entry.msg;
+      char *prog = entry.msg + 1;
+      char *msg = entry.msg + strlen(entry.msg) + 1;
+      char tagbyte;
+      switch (*tag) {
+      case ANDROID_LOG_UNKNOWN:
+        tagbyte = 'U';
+        break;
+      case ANDROID_LOG_DEFAULT:
+        tagbyte = '*';
+        break;
+      case ANDROID_LOG_VERBOSE:
+        tagbyte = 'V';
+        break;
+      case ANDROID_LOG_DEBUG:
+        tagbyte = 'D';
+        break;
+      case ANDROID_LOG_INFO:
+        tagbyte = 'I';
+        break;
+      case ANDROID_LOG_WARN:
+        tagbyte = 'W';
+        break;
+      case ANDROID_LOG_ERROR:
+        tagbyte = 'E';
+        break;
+      case ANDROID_LOG_FATAL:
+        tagbyte = 'F';
+        break;
+      case ANDROID_LOG_SILENT:
+        tagbyte = 'S';
+        break;
+      default:
+        tagbyte = '?';
+        break;
+      }
+
+      printf("%c/%s(%5d): %s", tagbyte, prog, entry.pid, msg);
+    }
   }
-}
