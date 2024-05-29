@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
   int msize;
   int readsize;
   int numread;
+  int timestamps=0;
 
   if (argc > 1) {
     for (int x = 1; x < argc; x++) {
@@ -54,12 +55,15 @@ int main(int argc, char *argv[]) {
         return 0;
       } else if (strncmp(argv[x], "-f", 2) == 0) {
         follow = 1;
+      } else if (strncmp(argv[x], "-t", 2) == 0) {
+        timestamps = 1;
       } else {
         printf("Usage: %s [-c] [-h]\n", argv[0]);
         printf("Options:\n");
         printf("  -f  Follow the log\n");
         printf("  -c  Clear the log\n");
         printf("  -h  Show this help\n");
+        printf("  -t  include timestamps\n");
         return 0;
       }
     }
@@ -132,7 +136,9 @@ int main(int argc, char *argv[]) {
       tagbyte = '?';
       break;
     }
-
+    if (timestamps) {
+      printf("%d.%d ", entry.sec, entry.nsec);
+    }
     printf("%c/%s(%5d): %s", tagbyte, prog, entry.pid, msg);
   }
 }
